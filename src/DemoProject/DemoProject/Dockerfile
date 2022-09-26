@@ -2,21 +2,21 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+EXPOSE 5000
+EXPOSE 5001
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["DemoProject/DemoProject.csproj", "DemoProject/"]
-RUN dotnet restore "DemoProject/DemoProject.csproj"
-COPY . .
-WORKDIR "/src/DemoProject"
+COPY ["./", "."]
+RUN dotnet restore "DemoProject.csproj"
 RUN dotnet build "DemoProject.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "DemoProject.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
+ENV ASPNETCORE_URLS=http://+:5000
 WORKDIR /app
 COPY --from=publish /app/publish .
+
 ENTRYPOINT ["dotnet", "DemoProject.dll"]
