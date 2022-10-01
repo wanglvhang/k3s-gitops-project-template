@@ -1,0 +1,25 @@
+#apiVersion: kustomize.config.k8s.io/v1beta1
+#kind: Kustomization
+#namespace: demo-app
+
+
+bases:
+  - "../../base"
+
+configMapGenerator:
+- name: demoproj-config
+  namespace: demo-app
+  files:
+  - appsettings.Staging.json
+
+secretGenerator:
+- name: demoproj-tls
+  namespace: demo-app
+  type: "kubernetes.io/tls"
+  files:
+  - tls.crt=tls/myhost.com.csr
+  - tls.key=tls/myhost.com.key
+
+
+
+
