@@ -1,0 +1,13 @@
+---
+#配置traefik 启用 accesslog 
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    additionalArguments:
+    - "--accesslog.filepath=/tmp/access.log"
+    - "--accesslog.bufferingsize=10000"
+---        
