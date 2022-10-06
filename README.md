@@ -59,12 +59,15 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 `kubectl -n argocd patch service argocd-server --patch-file  patch-argocd-service.yaml`  
 将 argo cd 内置的 service 更新为 NodePort 来公开 argo cd 服务。  
 执行完命令后，可以使用 https://{主机地址}:31080 来访问 argo cd 页面。  
+![image](https://user-images.githubusercontent.com/936437/194257503-e5b926a8-00ce-4cfa-852d-8f442a5bbe26.png)
+
 默认用户名: `admin`  
 默认密码可以通过下面的命令获取:  
 `kubectl get secret -n argocd argocd-initial-admin-secret -o=jsonpath={.data.password} | base64 -d`
 
 
-## step 4, 在 argo cd 中创建应用
+## step 4, 在 argo cd 中创建应用  
+进入 argo cd 主页后 点击左上角的[NEW APP]按钮添加新的部署，在弹出窗口中点击左上角的[EDIT AS YAML] 并拷贝下面的内容
 
 
 
