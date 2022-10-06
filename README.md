@@ -105,7 +105,8 @@ spec:
 - [traefik](https://doc.traefik.io/traefik/) k3s 内置 traefik 作为反向代理服务器。
 - [helmchart](https://helm.sh/zh/docs/topics/charts/) k3s 使用 hemlchart 安装 traefik，所以对 traefik 的配置默认使用 hemlchart config。
 - [helmchart artifact](https://artifacthub.io/) helmchart 官方仓库
-- [yaml]() yaml文件的格式与基本语法
+- [dockerfile](https://docs.docker.com/engine/reference/builder/) 容器技术，主要是 Dockerfile 的编写
+- [yaml](https://yaml.org/) yaml文件的格式与基本语法
 
 
 但这些不在本项目的讨论范围内，相关内容可查看对应文档。  

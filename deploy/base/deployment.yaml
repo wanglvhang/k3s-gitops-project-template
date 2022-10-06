@@ -26,6 +26,9 @@ spec:
           requests:
             memory: 128Mi
             cpu: "0.2"
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Staging
         ports:
         # Ports are the ports that your application uses.
         - containerPort: 5000 # The port that your application uses
