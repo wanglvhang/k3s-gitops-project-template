@@ -14,7 +14,7 @@ spec:
   template:
     metadata:
       labels:
-        app: demo-app # Name of your application
+        app: demoproj # Name of your application
     spec:
       containers:
       - name: demoproj 
