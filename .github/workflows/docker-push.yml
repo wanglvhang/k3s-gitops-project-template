@@ -4,6 +4,7 @@ name: Docker Build&Push
 on:
   release:
       types: [published]
+      branches: ["dev"]
 
 jobs:
   build:
@@ -12,6 +13,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          ref: dev
       
       - name: show context
         run: echo ${{ github.ref }}

@@ -1,7 +1,7 @@
 # k3s-gitops-project-template
 this is a gitops template project base on k3s with a smaple .net web app  
 这是一个基于 k3s 的 gitops 流程演示，使用.net web 应用作为演示项目。
-
+<br/>
 
 # 一、项目内容
 
@@ -28,7 +28,8 @@ this is a gitops template project base on k3s with a smaple .net web app
 |       ├─docker-push.yaml  //主干发布时触发，生成镜像并push到docker hub
 |       └─dotnet-build.yaml //dev分支提交时触发，测试生成是否成功
 ```
-
+为了保持简单，本例没有添加自动化测试的流程。  
+<br/>
 
 # 二、部署环境搭建
 ## 主要版本
@@ -69,10 +70,52 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 ## step 4, 在 argo cd 中创建应用  
 进入 argo cd 主页后 点击左上角的[NEW APP]按钮添加新的部署，在弹出窗口中点击左上角的[EDIT AS YAML] 并拷贝下面的内容
 
+```
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demoproj
+spec:
+  destination:
+    name: ''
+    namespace: demo-app
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: deploy/overlays/stage/
+    repoURL: 'https://github.com/wanglvhang/k3s-gitops-project-template.git'
+    targetRevision: dev
+  project: default
+  syncPolicy:
+    automated: null
+```
+点击[CREATE]即可创建应用部署（若出现timeout错误可多尝试几次）
 
+
+
+应用部署创建完成后你就可以查看部署状态并进行各种操作与设置，详细内容可查看文档
+
+
+
+
+本例的流程中除了最重要的 [**k3s**](https://k3s.io/)、[**github**](https://docs.github.com/cn) 和 [**argocd**](https://argo-cd.readthedocs.io/en/stable/) 之外还包含了其他工具或技术，如:  
+
+
+- [github actions](https://docs.github.com/cn/actions) 
+- [kustomization](https://kustomize.io/) 
+- [traefik](https://doc.traefik.io/traefik/) k3s 内置 traefik 作为反向代理服务器。
+- [helmchart](https://helm.sh/zh/docs/topics/charts/) k3s 使用 hemlchart 安装 traefik，所以对 traefik 的配置默认使用 hemlchart config。
+- [helmchart artifact](https://artifacthub.io/) helmchart 官方仓库
+
+
+但这些不在本项目的讨论范围内，相关内容可查看对应文档。  
+**有任何问题可在issue中提交，我会尽量回答。**
 
 
 # 三、实际流程
+
+### 场景1，dev 分支提交代码
+
+### 场景2，发布应用
 
 
 
@@ -80,3 +123,17 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 
 # 四、其他
 
+## kubernetes 管理工具
+为了提高管理 kubernetes 环境通常会使用工具来进行管理，在实践中我推荐 k9s 和 lens。
+
+- [k9s]() vim风格的 kubernetes 管理工具。
+- [lens]() GUI kubernetes 管理工具。
+
+## k3s 镜像加速
+
+
+## 启用 traefik dashboard
+
+
+## argo cd的证书配置
+`argocd-server-tls`
