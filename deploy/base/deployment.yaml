@@ -48,8 +48,8 @@ spec:
         configMap:
           name: app-conf
           items:
-          - key: appsettings.Production.json 
-            path: appsettings.Production.json
+          - key: appsettings.Staging.json 
+            path: appsettings.Staging.json
 ---
 apiVersion: v1
 kind: Service
