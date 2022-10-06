@@ -34,11 +34,11 @@ spec:
         - containerPort: 5000 # The port that your application uses
         volumeMounts:
         # VolumeMounts are the volumes that your application uses.
-        - name: datafiles # Name of the volume
+        - name: data # Name of the volume
           mountPath: /app/datafiles # The path that your application uses
-        - name: prod-config
-          mountPath: /app/appsettings.Production.json
-          subPath: appsettings.Production.json
+        - name: app-conf
+          mountPath: /app/appsettings.Staging.json
+          subPath: appsettings.Staging.json
       volumes:
       # Volumes are the persistent storage that your application uses.
       - name: data # Name of the volume
