@@ -89,6 +89,7 @@ spec:
   syncPolicy:
     automated: null
 ```
+如下图所示
 ![image](https://user-images.githubusercontent.com/936437/194600297-1e76ef54-e621-4f05-8f9e-acb0789198ea.png)
 
 点击[CREATE]即可创建应用部署（若出现timeout错误时可多尝试几次）。
@@ -98,7 +99,7 @@ spec:
 ![synced](https://user-images.githubusercontent.com/936437/194600806-a05ae51a-6ad1-4517-baec-0c0a268d5f0b.png)
 
 
-部署同步完成后就可以通过主机ip地址访问应用页面了，
+手动触发同步或自动同步完成后就可以通过主机ip地址访问应用页面了。
 
 
 
