@@ -26,7 +26,7 @@ spec:
     middlewares: 
     - name: https-redirect
     services:
-    - name: lhweb-svc
+    - name: demoproj-svc
       port: 5000
 ---
 #https ir
@@ -37,7 +37,7 @@ metadata:
   namespace: demo-app
 spec:
   tls:
-    secretName: http-cert
+    secretName: demoproj-tls
   entryPoints:
   - websecure
   routes:
@@ -45,6 +45,6 @@ spec:
     match:  Host(`myhost.com`) || Host(`www.myhost.com`)
     priority: 1
     services:
-    - name: lhweb-svc
+    - name: demoproj-svc
       port: 5000
 ---
