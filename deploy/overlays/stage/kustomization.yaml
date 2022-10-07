@@ -17,8 +17,8 @@ secretGenerator:
   namespace: demo-app
   type: "kubernetes.io/tls"
   files:
-  - tls.crt=tls/myhost.com.csr
-  - tls.key=tls/myhost.com.key
+  - tls.crt=tls/tls.csr
+  - tls.key=tls/tls.key
 
 
 
