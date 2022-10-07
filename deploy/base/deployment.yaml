@@ -36,7 +36,7 @@ spec:
         # VolumeMounts are the volumes that your application uses.
         - name: data # Name of the volume
           mountPath: /app/datafiles # The path that your application uses
-        - name: app-conf
+        - name: config
           mountPath: /app/appsettings.Staging.json
           subPath: appsettings.Staging.json
       volumes:
@@ -46,7 +46,7 @@ spec:
           claimName: data-pvc # Name of the persistent volume claim
       - name: config
         configMap:
-          name: app-conf
+          name: demoproj-config
           items:
           - key: appsettings.Staging.json 
             path: appsettings.Staging.json
