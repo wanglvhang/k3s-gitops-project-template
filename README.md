@@ -88,13 +88,16 @@ spec:
   syncPolicy:
     automated: null
 ```
-点击[CREATE]即可创建应用部署（若出现timeout错误可多尝试几次）
-
-
+点击[CREATE]即可创建应用部署（若出现timeout错误时可多尝试几次）。
 
 应用部署创建完成后你就可以查看部署状态并进行各种操作与设置，详细内容可查看文档
 
 
+部署同步完成后就可以访问应用网站了，网站绑定了域名 lvhang.site，所以需要在`C:\Windows\System32\drivers\etc\hosts` 文件中添加以下内容来访问，
+```
+42.192.129.99 lvhang.wang
+```
+ip地址替换为你k3s主机的ip地址，添加完成后即可通过 lvhang.wang 域名来访问应用网站了。
 
 
 本例的流程中除了最重要的 [**k3s**](https://k3s.io/)、[**github**](https://docs.github.com/cn) 和 [**argocd**](https://argo-cd.readthedocs.io/en/stable/) 之外还包含了其他工具或技术，如:  
