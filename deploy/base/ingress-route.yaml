@@ -21,7 +21,7 @@ spec:
   - web
   routes:
   - kind: Rule
-    match:  Host(`myhost.com`) || Host(`www.myhost.com`)
+    match: PathPrefix(`/`) 
     priority: 1
     middlewares: 
     - name: https-redirect
@@ -42,7 +42,7 @@ spec:
   - websecure
   routes:
   - kind: Rule
-    match:  Host(`myhost.com`) || Host(`www.myhost.com`)
+    match: PathPrefix(`/`) 
     priority: 1
     services:
     - name: demoproj-svc
