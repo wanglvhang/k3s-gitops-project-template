@@ -1,0 +1,50 @@
+---
+#http 重定向middleware
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: https-redirect
+  namespace: demo-app
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+---
+#http ir
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: demoproj-web-ir
+  namespace: demo-app
+spec:
+  entryPoints:
+  - web
+  routes:
+  - kind: Rule
+    match:  Host(`myhost.com`) || Host(`www.myhost.com`)
+    priority: 1
+    middlewares: 
+    - name: https-redirect
+    services:
+    - name: lhweb-svc
+      port: 5000
+---
+#https ir
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: demoproj-websecure-ir
+  namespace: demo-app
+spec:
+  tls:
+    secretName: http-cert
+  entryPoints:
+  - websecure
+  routes:
+  - kind: Rule
+    match:  Host(`myhost.com`) || Host(`www.myhost.com`)
+    priority: 1
+    services:
+    - name: lhweb-svc
+      port: 5000
+---

@@ -2,3 +2,4 @@
 resources:
   - "basic.yaml"
   - "deployment.yaml"
+  - "ingress-route.yaml"
