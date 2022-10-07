@@ -11,6 +11,8 @@ configMapGenerator:
   namespace: demo-app
   files:
   - appsettings.Staging.json
+  options:
+    disableNameSuffixHash: true
 
 secretGenerator:
 - name: demoproj-tls
@@ -19,6 +21,8 @@ secretGenerator:
   files:
   - tls.crt=tls/tls.csr
   - tls.key=tls/tls.key
+  options:
+    disableNameSuffixHash: true
 
 
 
