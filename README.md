@@ -100,6 +100,7 @@ spec:
 
 
 手动触发同步或自动同步完成后就可以通过主机ip地址访问应用页面了。
+![image](https://user-images.githubusercontent.com/936437/194612620-31915b1c-6030-4479-952d-24f5e3f0bf99.png)
 
 
 
