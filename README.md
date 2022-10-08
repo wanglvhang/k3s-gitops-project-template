@@ -1,7 +1,7 @@
 # k3s-gitops-project-template
 这是一个基于 k3s 的 gitops 流程演示，使用.net web 应用作为演示项目。  
-this is a gitops template project base on k3s with a smaple .net web app  
-<br/>
+this is a gitops template project base on k3s with a smaple .net web app.  
+为加速中国大陆地区的访问，该项目的 jihulab 镜像地址为：https://jihulab.com/wanglvhang/k3s-gitops-project-template
 
 ## 一、项目内容
 
@@ -46,7 +46,7 @@ argocd: v2.4.12
 `sudo curl -sfL https://rancher-mirror.oss-cn-beijing.aliyuncs.com/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn sh -`
 
 安装完成后，使用下面的命令检查k3s是否成功运行  
-`kubectl get all --all-namespaces `  
+`kubectl get all --all-namespaces`  
 
 ### step 2, 安装 argocd
 k3s安装成功后，使用下面的命令安装 argo cd。  
@@ -70,7 +70,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 
 
 ### step 4, 在 argo cd 中创建应用  
-进入 argo cd 主页后 点击左上角的[NEW APP]按钮添加新的部署，在弹出窗口中点击左上角的[EDIT AS YAML] 并拷贝下面的内容
+进入 argo cd 主页后 点击左上角的[NEW APP]按钮添加新的部署，在弹出窗口中点击左上角的[EDIT AS YAML] 并拷贝下面的内容。  
 
 ```
 apiVersion: argoproj.io/v1alpha1
@@ -94,17 +94,15 @@ spec:
 <br/>
 <img src="https://user-images.githubusercontent.com/936437/194600297-1e76ef54-e621-4f05-8f9e-acb0789198ea.png" alt="创建app" title="创建app" width=80%>
 <br/>
-
-点击[CREATE]即可创建应用部署（若出现timeout错误时可多尝试几次）。
-<br/>
+点击[CREATE]即可创建应用部署，若出现超时错误，可多尝试几次或将yaml中的 repoURL 替换为：
+`https://jihulab.com/wanglvhang/k3s-gitops-project-template.git`  
 <br/>
 应用部署创建完成后你就可以查看部署状态并进行各种操作与设置，详细内容可查看 [argo cd 文档](https://argo-cd.readthedocs.io/en/stable/)。
 <img src="https://user-images.githubusercontent.com/936437/194600806-a05ae51a-6ad1-4517-baec-0c0a268d5f0b.png" alt="argocd app synced" title="argocd app synced" width=80%>
 <br/>
 <br/>
-手动触发同步或自动同步完成后就可以通过主机ip地址访问应用页面了。
+手动触发同步或自动同步完成后，就可以通过主机ip地址访问部署好的应用页面了。
 <img src="https://user-images.githubusercontent.com/936437/194612620-31915b1c-6030-4479-952d-24f5e3f0bf99.png" alt="demoproj app" title="demoproj app" width=80%>
-
 
 
 本例的流程中除了最重要的 [**k3s**](https://k3s.io/)、[**github**](https://docs.github.com/cn) 和 [**argocd**](https://argo-cd.readthedocs.io/en/stable/) 之外还包含了其他工具或技术，如:  
@@ -129,19 +127,29 @@ spec:
 当在 main 提交代码后，dotnet-build.yml workflow 会被触发并 build src目录中的 demoproj 项目。 
 
 - 场景2，发布应用  
-当在 main 发布后，docker-push.yml workflow 会被触发并构建 demoproj 镜像并上传到 dockerhub。
+当在 main 发布后，docker-push.yml workflow 会被触发并构建 demoproj 镜像并上传到 dockerhub。修改 deploy/overlays/stage/kustomization.yaml 中的images:newTag 为最新的 image tag 签入后 argo cd 会自动更新部署。
 
 
 ## 四、其他
 
+### secrets 管理  
+本例中将 tls 和 配置信息都明文放在 /deploy/base/kustomization.yaml 中做为演示，生产环境中不应这么做!!!
+通常的做法包括：
+- 使用云端提供的 Vault 功能来保存机密信息
+- 直接手动在 k8s 中创建机密信息
+- 使用 Argo CD Vault Plugin
+- 使用 Sealed Secrets
+
+机密管理现在没有统一的标准，需要根据实际的情况选择具体的实践。
+
 ### kubernetes 管理工具
-为了提高管理 kubernetes 的效率，我推荐使用 k9s 和 lens 两款工具。
+为了提高管理 kubernetes 的效率，推荐使用 k9s 和 lens 两款工具。
 
 - [**k9s**](https://k9scli.io/) vim 风格的 kubernetes 管理工具。
 - [**lens**](https://k8slens.dev/) GUI kubernetes 管理工具。
 
 ### k3s 镜像加速
-k3s 默认使用 containerd 容器引擎，containerd 默认使用 docker hub, 为了加速镜像的获取可以将 setup 目录中的 `registries.yaml` 文件拷贝到 k3s 主机上的 `/etc/rancher/k3s/` 目录中。
+k3s 默认使用 containerd 容器引擎，containerd 默认使用 docker hub, 为了加速镜像的获取，可以将 setup 目录中的 `registries.yaml` 文件拷贝到 k3s 主机上的 `/etc/rancher/k3s/` 目录中。
 
 
 

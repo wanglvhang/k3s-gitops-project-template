@@ -25,5 +25,7 @@ secretGenerator:
     disableNameSuffixHash: true
 
 
-
+images:
+- name: wanglvhang/demoproj
+  newTag: tr3
 
