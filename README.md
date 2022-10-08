@@ -25,8 +25,8 @@ this is a gitops template project base on k3s with a smaple .net web app
 ```
 ├─.github  
 │  └─workflows
-|       ├─docker-push.yaml  //主干发布时触发，生成镜像并push到docker hub
-|       └─dotnet-build.yaml //dev分支提交时触发，测试生成是否成功
+|       ├─docker-push.yaml  //代码发布时触发，生成镜像并push到docker hub
+|       └─dotnet-build.yaml //代码提交时触发，测试生成是否成功
 ```
 为了保持简单，本例没有添加自动化测试的流程。  
 <br/>
@@ -84,7 +84,7 @@ spec:
   source:
     path: deploy/overlays/stage/
     repoURL: 'https://github.com/wanglvhang/k3s-gitops-project-template.git'
-    targetRevision: dev
+    targetRevision: main
   project: default
   syncPolicy:
     automated: null
@@ -122,12 +122,11 @@ spec:
 
 # 三、实际流程
 
-### 场景1，dev 分支提交代码
+### 场景1，代码push
+当在 main 分支提交代码后，dotnet-build.yml workflow 会被触发并 build src目录中的 demoproj 项目。 
 
 ### 场景2，发布应用
-
-
-
+当在 main 分支发布后，docker-push.yml workflow 会被触发并构建 demoproj 镜像并上传到 dockerhub。
 
 
 # 四、其他
