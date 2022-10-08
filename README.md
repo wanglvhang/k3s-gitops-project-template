@@ -1,11 +1,11 @@
 # k3s-gitops-project-template
+这是一个基于 k3s 的 gitops 流程演示，使用.net web 应用作为演示项目。  
 this is a gitops template project base on k3s with a smaple .net web app  
-这是一个基于 k3s 的 gitops 流程演示，使用.net web 应用作为演示项目。
 <br/>
 
-# 一、项目内容
+## 一、项目内容
 
-## 目录结构
+### 目录结构
 ```
 ├─.github  
 │  └─workflows    //github actions 文件
@@ -20,7 +20,7 @@ this is a gitops template project base on k3s with a smaple .net web app
     └─DemoProject //demo project 项目文件夹
 ```
 
-## 使用 github actions 搭建 CI/CD
+### 使用 github actions 搭建 CI/CD
 本例中创建了两个 workflow action
 ```
 ├─.github  
@@ -31,13 +31,13 @@ this is a gitops template project base on k3s with a smaple .net web app
 为了保持简单，本例没有添加自动化测试的流程。  
 <br/>
 
-# 二、部署环境搭建
-## 主要版本
+## 二、部署环境搭建
+### 主要版本
 OS：Ubuntu 22.04 LTS  
 k3s: v1.24.4+k3s1  
 argocd: v2.4.12
 
-## step 1, 安装 k3s
+### step 1, 安装 k3s
 
 官方安装脚本：  
 `curl -sfL https://get.k3s.io | sh - `
@@ -48,26 +48,28 @@ argocd: v2.4.12
 安装完成后，使用下面的命令检查k3s是否成功运行  
 `kubectl get all --all-namespaces `  
 
-## step 2, 安装 argocd
+### step 2, 安装 argocd
 k3s安装成功后，使用下面的命令安装 argo cd。  
 ```
 kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
-## step 3, 公开并登录 argo cd
+### step 3, 公开并登录 argo cd
 上传 setup 目录中的 patch-argocd-service.yaml 文件，并通过下面的命令  
 `kubectl -n argocd patch service argocd-server --patch-file  patch-argocd-service.yaml`  
 将 argo cd 内置的 service 更新为 NodePort 来公开 argo cd 服务。  
 执行完命令后，可以使用 https://{主机地址}:31080 来访问 argo cd 页面。  
-![image](https://user-images.githubusercontent.com/936437/194257503-e5b926a8-00ce-4cfa-852d-8f442a5bbe26.png)
+
+<img src="https://user-images.githubusercontent.com/936437/194257503-e5b926a8-00ce-4cfa-852d-8f442a5bbe26.png" alt="argo cd 主页" title="argo cd 主页" width=80%>
+
 
 默认用户名: `admin`  
 默认密码可以通过下面的命令获取:  
 `kubectl get secret -n argocd argocd-initial-admin-secret -o=jsonpath={.data.password} | base64 -d`
 
 
-## step 4, 在 argo cd 中创建应用  
+### step 4, 在 argo cd 中创建应用  
 进入 argo cd 主页后 点击左上角的[NEW APP]按钮添加新的部署，在弹出窗口中点击左上角的[EDIT AS YAML] 并拷贝下面的内容
 
 
@@ -90,18 +92,18 @@ spec:
     automated: null
 ```
 如下图所示
-![image](https://user-images.githubusercontent.com/936437/194600297-1e76ef54-e621-4f05-8f9e-acb0789198ea.png)
+<br/>
+<img src="https://user-images.githubusercontent.com/936437/194600297-1e76ef54-e621-4f05-8f9e-acb0789198ea.png" alt="创建app" title="创建app" width=80%>
+<br/>
 
 点击[CREATE]即可创建应用部署（若出现timeout错误时可多尝试几次）。
 
 应用部署创建完成后你就可以查看部署状态并进行各种操作与设置，详细内容可查看文档
 
-![synced](https://user-images.githubusercontent.com/936437/194600806-a05ae51a-6ad1-4517-baec-0c0a268d5f0b.png)
-
+<img src="https://user-images.githubusercontent.com/936437/194600806-a05ae51a-6ad1-4517-baec-0c0a268d5f0b.png" alt="argocd app synced" title="argocd app synced" width=80%>
 
 手动触发同步或自动同步完成后就可以通过主机ip地址访问应用页面了。
-![image](https://user-images.githubusercontent.com/936437/194612620-31915b1c-6030-4479-952d-24f5e3f0bf99.png)
-
+<img src="https://user-images.githubusercontent.com/936437/194612620-31915b1c-6030-4479-952d-24f5e3f0bf99.png" alt="demoproj app" title="demoproj app" width=80%>
 
 
 
@@ -121,28 +123,25 @@ spec:
 **有任何问题可在issues中提交，我会尽量回答。**
 
 
-# 三、实际流程
+## 三、场景
 
-### 场景1，代码push
-当在 main 分支提交代码后，dotnet-build.yml workflow 会被触发并 build src目录中的 demoproj 项目。 
+- 场景1，代码push  
+当在 main 提交代码后，dotnet-build.yml workflow 会被触发并 build src目录中的 demoproj 项目。 
 
-### 场景2，发布应用
-当在 main 分支发布后，docker-push.yml workflow 会被触发并构建 demoproj 镜像并上传到 dockerhub。
-
-
-# 四、其他
-
-## kubernetes 管理工具
-为了提高管理 kubernetes 环境通常会使用工具来进行管理，在实践中我推荐 k9s 和 lens。
-
-- [k9s]() vim风格的 kubernetes 管理工具。
-- [lens]() GUI kubernetes 管理工具。
-
-## k3s 镜像加速
+- 场景2，发布应用  
+当在 main 发布后，docker-push.yml workflow 会被触发并构建 demoproj 镜像并上传到 dockerhub。
 
 
-## 启用 traefik dashboard
+## 四、其他
+
+### kubernetes 管理工具
+为了提高管理 kubernetes 的效率，我推荐使用 k9s 和 lens 两款工具。
+
+- [k9s](https://k9scli.io/) vim 风格的 kubernetes 管理工具。
+- [lens]([Nocalhost](https://k8slens.dev/)) GUI kubernetes 管理工具。
+
+### k3s 镜像加速
+k3s 默认使用 containerd 容器引擎，containerd 默认使用 docker hub, 为了加速镜像的获取可以将 setup 目录中的 `registries.yaml` 文件拷贝到 k3s 主机上的 `/etc/rancher/k3s/` 目录中。
 
 
-## argo cd的证书配置
-`argocd-server-tls`
+
