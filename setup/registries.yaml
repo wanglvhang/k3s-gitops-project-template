@@ -1,0 +1,14 @@
+mirrors:
+  docker.io:
+    endpoint:
+      - "https://registry.docker-cn.com"
+      - "https://mirror.ccs.tencentyun.com"
+      - "https://docker.mirrors.ustc.edu.cn"
+      - "https://registry-1.docker.io"
+      - "https://hub-mirror.c.163.com"
+  aliyuncs.com:
+    endpoint:
+      - "https://registry.cn-hangzhou.aliyuncs.com"
+  ccs.tencentyun.com:
+    endpoint:
+      - "https://mirror.ccs.tencentyun.com"

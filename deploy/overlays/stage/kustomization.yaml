@@ -1,0 +1,29 @@
+#apiVersion: kustomize.config.k8s.io/v1beta1
+#kind: Kustomization
+#namespace: demo-app
+
+
+bases:
+  - "../../base"
+
+configMapGenerator:
+- name: demoproj-config
+  namespace: demo-app
+  files:
+  - appsettings.Staging.json
+  options:
+    disableNameSuffixHash: true
+
+secretGenerator:
+- name: demoproj-tls
+  namespace: demo-app
+  type: "kubernetes.io/tls"
+  files:
+  - tls.crt=tls/lvhang-wang.crt
+  - tls.key=tls/lvhang-wang-privateKey.key
+  options:
+    disableNameSuffixHash: true
+
+
+
+

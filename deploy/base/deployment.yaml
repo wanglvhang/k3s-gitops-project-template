@@ -1,0 +1,66 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demoproj # Name of the deployment
+  namespace: demo-app # Name of the namespace
+  labels:
+    app: demoproj # Name of your application
+spec:
+  selector:
+    matchLabels:
+      app: demoproj # Name of your application
+  replicas: 1 # Number of replicas
+  template:
+    metadata:
+      labels:
+        app: demoproj # Name of your application
+    spec:
+      containers:
+      - name: demoproj 
+        image: wanglvhang/demoproj:latest
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: "1"
+          requests:
+            memory: 128Mi
+            cpu: "0.2"
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Staging
+        ports:
+        # Ports are the ports that your application uses.
+        - containerPort: 5000 # The port that your application uses
+        volumeMounts:
+        # VolumeMounts are the volumes that your application uses.
+        - name: data # Name of the volume
+          mountPath: /app/datafiles # The path that your application uses
+        - name: config
+          mountPath: /app/appsettings.Staging.json
+          subPath: appsettings.Staging.json
+      volumes:
+      # Volumes are the persistent storage that your application uses.
+      - name: data # Name of the volume
+        persistentVolumeClaim:
+          claimName: data-pvc # Name of the persistent volume claim
+      - name: config
+        configMap:
+          name: demoproj-config
+          items:
+          - key: appsettings.Staging.json 
+            path: appsettings.Staging.json
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demoproj-svc
+  namespace: demo-app
+spec:
+  type: ClusterIP
+  selector:
+    app: demoproj
+  ports:
+    - port: 5000
+      targetPort: 5000
+      protocol: TCP            

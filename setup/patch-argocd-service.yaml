@@ -1,0 +1,14 @@
+# 修改argocd service 为 nodeport 来公开服务 端口 31080 与31443
+spec:
+  ports:
+  - name: http
+    nodePort: 31080  
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  - name: https
+    nodePort: 31443
+    port: 443
+    protocol: TCP
+    targetPort: 8080
+  type: NodePort

@@ -1,0 +1,26 @@
+#apiVersion: kustomize.config.k8s.io/v1beta1
+#kind: Kustomization
+#namespace: demo-app
+
+
+bases:
+  - "../../base"
+
+#生产环境的secret信息不应放在源代码中，而应直接在生成环境中构建
+# configMapGenerator:
+# - name: demoproj-config
+#   namespace: demo-app
+#   files:
+#   - appsettings.Staging.json
+
+# secretGenerator:
+# - name: demoproj-tls
+#   namespace: demo-app
+#   type: "kubernetes.io/tls"
+#   files:
+#   - tls.crt=tls/myhost.com.csr
+#   - tls.key=tls/myhost.com.key
+
+
+
+
