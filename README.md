@@ -1,7 +1,7 @@
 # k3s-gitops-project-template
 这是一个基于 k3s 的 gitops 流程演示，使用.net web 应用作为演示项目。  
 this is a gitops template project base on k3s with a smaple .net web app.  
-为加速中国大陆地区的访问，该项目的 jihulab 镜像地址为：https://jihulab.com/wanglvhang/k3s-gitops-project-template
+为加速中国大陆地区的访问，该项目的 jihulab 镜像地址为：https://jihulab.com/lvhang/k3s-gitops-project-template
 
 ## 一、项目内容
 
@@ -95,7 +95,7 @@ spec:
 <img src="https://user-images.githubusercontent.com/936437/194600297-1e76ef54-e621-4f05-8f9e-acb0789198ea.png" alt="创建app" title="创建app" width=80%>
 <br/>
 点击[CREATE]即可创建应用部署，若出现超时错误，可多尝试几次或将yaml中的 repoURL 替换为：
-`https://jihulab.com/wanglvhang/k3s-gitops-project-template.git`  
+`https://jihulab.com/lvhang/k3s-gitops-project-template.git`  
 <br/>
 应用部署创建完成后你就可以查看部署状态并进行各种操作与设置，详细内容可查看 [argo cd 文档](https://argo-cd.readthedocs.io/en/stable/)。
 <img src="https://user-images.githubusercontent.com/936437/194600806-a05ae51a-6ad1-4517-baec-0c0a268d5f0b.png" alt="argocd app synced" title="argocd app synced" width=80%>
