@@ -28,7 +28,7 @@ this is a gitops template project base on k3s with a smaple .net web app
 |       ├─docker-push.yaml  //代码发布时触发，生成镜像并push到docker hub
 |       └─dotnet-build.yaml //代码提交时触发，测试生成是否成功
 ```
-为了保持简单，本例没有添加自动化测试的流程。  
+本例没有添加自动化测试的流程。  
 <br/>
 
 ## 二、部署环境搭建
@@ -59,7 +59,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 上传 setup 目录中的 patch-argocd-service.yaml 文件，并通过下面的命令  
 `kubectl -n argocd patch service argocd-server --patch-file  patch-argocd-service.yaml`  
 将 argo cd 内置的 service 更新为 NodePort 来公开 argo cd 服务。  
-执行完命令后，可以使用 https://{主机地址}:31080 来访问 argo cd 页面。  
+执行完命令后，可以使用 `https://{主机地址}:31080` 来访问 argo cd 页面。  
 
 <img src="https://user-images.githubusercontent.com/936437/194257503-e5b926a8-00ce-4cfa-852d-8f442a5bbe26.png" alt="argo cd 主页" title="argo cd 主页" width=80%>
 
@@ -71,7 +71,6 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 
 ### step 4, 在 argo cd 中创建应用  
 进入 argo cd 主页后 点击左上角的[NEW APP]按钮添加新的部署，在弹出窗口中点击左上角的[EDIT AS YAML] 并拷贝下面的内容
-
 
 ```
 apiVersion: argoproj.io/v1alpha1
@@ -97,11 +96,12 @@ spec:
 <br/>
 
 点击[CREATE]即可创建应用部署（若出现timeout错误时可多尝试几次）。
-
-应用部署创建完成后你就可以查看部署状态并进行各种操作与设置，详细内容可查看文档
-
+<br/>
+<br/>
+应用部署创建完成后你就可以查看部署状态并进行各种操作与设置，详细内容可查看 [argo cd 文档](https://argo-cd.readthedocs.io/en/stable/)。
 <img src="https://user-images.githubusercontent.com/936437/194600806-a05ae51a-6ad1-4517-baec-0c0a268d5f0b.png" alt="argocd app synced" title="argocd app synced" width=80%>
-
+<br/>
+<br/>
 手动触发同步或自动同步完成后就可以通过主机ip地址访问应用页面了。
 <img src="https://user-images.githubusercontent.com/936437/194612620-31915b1c-6030-4479-952d-24f5e3f0bf99.png" alt="demoproj app" title="demoproj app" width=80%>
 
@@ -110,17 +110,17 @@ spec:
 本例的流程中除了最重要的 [**k3s**](https://k3s.io/)、[**github**](https://docs.github.com/cn) 和 [**argocd**](https://argo-cd.readthedocs.io/en/stable/) 之外还包含了其他工具或技术，如:  
 
 
-- [github actions](https://docs.github.com/cn/actions) 
-- [kustomization](https://kustomize.io/) 
-- [traefik](https://doc.traefik.io/traefik/) k3s 内置 traefik 作为反向代理服务器。
+- [github actions](https://docs.github.com/cn/actions) github 上的CI/CD工具。
+- [kustomize](https://kustomize.io/)  kustomize 是 k8s 原生的，无模板的 yaml 配置工具。
+- [traefik](https://doc.traefik.io/traefik/) k3s 内置了 traefik 作为反向代理服务器。
 - [helmchart](https://helm.sh/zh/docs/topics/charts/) k3s 使用 hemlchart 安装 traefik，所以对 traefik 的配置默认使用 hemlchart config。
-- [helmchart artifact](https://artifacthub.io/) helmchart 官方仓库
-- [dockerfile](https://docs.docker.com/engine/reference/builder/) 容器技术，主要是 Dockerfile 的编写
-- [yaml](https://yaml.org/) yaml文件的格式与基本语法
+- [helmchart artifact](https://artifacthub.io/) helmchart 官方仓库。
+- [dockerfile](https://docs.docker.com/engine/reference/builder/) 容器技术，主要是 Dockerfile 的编写。
+- [yaml](https://yaml.org/) yaml文件的格式与基本语法。
 
 
-但这些不在本项目的讨论范围内，相关内容可查看对应文档。  
-**有任何问题可在issues中提交，我会尽量回答。**
+这些工具或技术的细节不在本项目的讨论范围内，相关内容可查看对应文档。  
+**在部署过程中有任何问题可在issues中提交，会尽量回答。**
 
 
 ## 三、场景
@@ -137,8 +137,8 @@ spec:
 ### kubernetes 管理工具
 为了提高管理 kubernetes 的效率，我推荐使用 k9s 和 lens 两款工具。
 
-- [k9s](https://k9scli.io/) vim 风格的 kubernetes 管理工具。
-- [lens]([Nocalhost](https://k8slens.dev/)) GUI kubernetes 管理工具。
+- [**k9s**](https://k9scli.io/) vim 风格的 kubernetes 管理工具。
+- [**lens**](https://k8slens.dev/) GUI kubernetes 管理工具。
 
 ### k3s 镜像加速
 k3s 默认使用 containerd 容器引擎，containerd 默认使用 docker hub, 为了加速镜像的获取可以将 setup 目录中的 `registries.yaml` 文件拷贝到 k3s 主机上的 `/etc/rancher/k3s/` 目录中。
