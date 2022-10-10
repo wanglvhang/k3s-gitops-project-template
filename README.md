@@ -15,7 +15,7 @@ this is a gitops template project base on k3s with a smaple .net web app.
 │      ├─prod     //prod 环境
 │      └─stage    //stage 测试环境，本例使用 stage环境作为演示
 │          └─tls  //stage 环境ssl证书
-├─setup           //用于初始化环境的一些 
+├─setup           //用于初始化环境的一些脚本  
 └─src             //应用代码
     └─DemoProject //demo project 项目文件夹
 ```
